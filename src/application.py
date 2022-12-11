@@ -69,6 +69,7 @@ def login():
         redirect_uri=request.base_url + "/callback",
         scope=["openid", "email", "profile"],
     )
+    print(request_uri)
     return redirect(request_uri)
 
 @app.route("/login/callback")
@@ -173,4 +174,5 @@ def deleteUser(userId):
     return rsp
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5011, ssl_context="adhoc")
+    context = ('local.crt', 'local.key')#certificate and key files
+    app.run(host="0.0.0.0", port="5011", ssl_context=context)

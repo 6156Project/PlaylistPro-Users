@@ -6,8 +6,8 @@ export GOOGLE_CLIENT_SECRET=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
 export FLASK_APP=application.py
 export FLASK_DEBUG=1
 export SECRET_KEY=tester
-export DBUSER=root
-export DBPW=Mars2016
-export DBHOST=localhost
+export DBHOST="playlist-pro.cf6n21kxnhto.us-east-1.rds.amazonaws.com"
+export DBPW="6156Project"
+export DBUSER="admin"
+#export OAUTHLIB_INSECURE_TRANSPORT=1
 
-python3 -m application
