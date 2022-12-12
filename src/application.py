@@ -12,7 +12,7 @@ from datetime import datetime
 import json
 import rest_utils
 from user_resource import UserResource, User
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 
 import os
 
@@ -30,6 +30,8 @@ app = Flask(__name__,
 
 CORS(app)
 
+app.config['CORS_HEADERS'] = 'Content-Type'
+
 app.secret_key = os.environ.get("SECRET_KEY") or os.urandom(24)
 
 login_manager = LoginManager()
@@ -38,6 +40,7 @@ login_manager.init_app(app)
 client = WebApplicationClient(GOOGLE_CLIENT_ID)
 
 @app.route("/")
+@cross_origin()
 def index():
     if current_user.is_authenticated:
         return (
@@ -57,6 +60,7 @@ def get_google_provider_cfg():
     return requests.get(GOOGLE_DISCOVERY_URL).json()
 
 @app.route("/login")
+@cross_origin()
 def login():
     # Find out what URL to hit for Google login
     google_provider_cfg = get_google_provider_cfg()
@@ -73,6 +77,7 @@ def login():
     return redirect(request_uri)
 
 @app.route("/login/callback")
+@cross_origin()
 def callback():
     # Get authorization code Google sent back to you
     code = request.args.get("code")
@@ -116,12 +121,14 @@ def callback():
     return redirect(url_for("index"))
 
 @app.route("/logout")
+@cross_origin()
 @login_required
 def logout():
     logout_user()
     return redirect(url_for("index"))
 
 @app.get("/api/health")
+@cross_origin()
 def get_health():
     t = str(datetime.now())
     msg = {
@@ -138,6 +145,7 @@ def get_health():
 
 
 @app.route("/api/user", methods=["POST"])
+@cross_origin()
 def addUser():
     request_inputs = rest_utils.RESTContext(request)
     data = request_inputs.data
@@ -148,6 +156,7 @@ def addUser():
     return rsp
 
 @app.route("/api/user/<userId>", methods=["GET"])
+@cross_origin()
 def getUser(userId):
     res = UserResource.getUser(userId)
 
@@ -156,6 +165,7 @@ def getUser(userId):
     return rsp
 
 @app.route("/api/user/<userId>", methods=["PUT"])
+@cross_origin()
 def updateUser(userId):
     request_inputs = rest_utils.RESTContext(request)
 
@@ -165,6 +175,7 @@ def updateUser(userId):
     return rsp
 
 @app.route("/api/user/<userId>", methods=["DELETE"])
+@cross_origin()
 def deleteUser(userId):
     request_inputs = rest_utils.RESTContext(request)
 
