@@ -46,7 +46,7 @@ class UserResource:
             result = cursor.fetchall()
         else:
             result = None
-
+        conn.close()
         return result
 
     @staticmethod
@@ -60,8 +60,10 @@ class UserResource:
             result = cursor.fetchall()
         else:
             result = None
+            conn.close()
             return None
         user = User(id_=result[0]["ID"], name=result[0]["FirstName"], email=result[0]["Email"])
+        conn.close()
         return user
 
     
@@ -78,7 +80,7 @@ class UserResource:
 
             conn.commit()
 
-
+            conn.close()
 
 
     @staticmethod
@@ -94,7 +96,7 @@ class UserResource:
         res = cursor.execute(sql)
 
         conn.commit()
-
+        conn.close()
         return hex_dig
 
         pass
@@ -117,6 +119,7 @@ class UserResource:
      
         res = cursor.execute(sql, (id))
         conn.commit()
+        conn.close()
         return 1
  
         pass
@@ -131,8 +134,10 @@ class UserResource:
         try:
             res = cursor.execute(sql)
             conn.commit()
+            conn.close()
             return 1
         except:
+            conn.close()
             return 0
 
         pass

@@ -76,11 +76,11 @@ def login():
     print(request_uri)
     return redirect(request_uri)
 
-@app.before_request
-def before_request_func():
-    if not current_user.is_authenticated and request.endpoint != 'login':
-        print("User not logged in")
-        return redirect(url_for("login"))
+# @app.before_request
+# def before_request_func():
+#     if not current_user.is_authenticated and request.endpoint != 'login' and request.endpoint != 'login/callback':
+#         print("User not logged in")
+#         return redirect(url_for("login"))
 
 @app.route("/login/callback")
 @cross_origin()
