@@ -170,6 +170,15 @@ def getUser(userId):
 
     return rsp
 
+@app.route("/api/users", methods=["GET"])
+@cross_origin()
+def getUsers():
+    res = UserResource.getUsers()
+
+    rsp = Response(json.dumps(res), status=200, content_type="text/plain")
+
+    return rsp
+
 @app.route("/api/user/<userId>", methods=["PUT"])
 @cross_origin()
 def updateUser(userId):

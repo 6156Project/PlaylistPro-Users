@@ -50,6 +50,20 @@ class UserResource:
         return result
 
     @staticmethod
+    def getUsers():
+        sql = "select * FROM users.users"
+        conn = UserResource._get_connection()
+        cursor = conn.cursor()
+        res = cursor.execute(sql)
+
+        if res >= 1:
+            result = cursor.fetchall()
+        else:
+            result = None
+        conn.close()
+        return result
+
+    @staticmethod
     def getUserSSO(id):
         sql = "select * FROM users.users where ID=%s;"
         conn = UserResource._get_connection()
