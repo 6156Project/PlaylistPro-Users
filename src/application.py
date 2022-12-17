@@ -122,9 +122,12 @@ def callback():
     # Begin user session by logging the user in
     login_user(user)
     UserResource.addUserSSO(user)
-
+    msg = {
+        "userID": user.id,
+    }
+    result = Response(json.dumps(msg), status=200, content_type="application/json")
     # Send user back to homepage
-    return redirect(url_for("index"))
+    return result
 
 @app.route("/logout")
 @cross_origin()
