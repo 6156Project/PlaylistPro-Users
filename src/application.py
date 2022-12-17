@@ -74,8 +74,12 @@ def login():
         scope=["openid", "email", "profile"],
     )
     print(request_uri)
-    return redirect(request_uri)
-
+    msg = {
+        "request_uri": request_uri,
+    }
+    result = Response(json.dumps(msg), status=200, content_type="application/json")
+    # Send user back to homepage
+    return result
 @app.before_request
 def before_request_func():
     if not current_user.is_authenticated and request.endpoint != 'login' and request.endpoint != "callback" and request.endpoint != "logout" and request.endpoint != "index":
