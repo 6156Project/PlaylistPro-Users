@@ -124,6 +124,8 @@ def callback():
     UserResource.addUserSSO(user)
     msg = {
         "userID": user.id,
+        "email": user.email,
+        "name": user.name
     }
     result = Response(json.dumps(msg), status=200, content_type="application/json")
     # Send user back to homepage
