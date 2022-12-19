@@ -36,11 +36,5 @@ jobs:
           ssh -o StrictHostKeyChecking=no -i private_key ${REMOTE_USER}@${REMOTE_HOST} "
             cd ${TARGET}/.. &&
             sudo rm -rf ${TARGET} &&
-            git clone ${GIT_CLONE_URL} &&
-            cd ${TARGET} &&
-            pkill -9 python &&
-            python3 -m pip install -r requirements.txt &&
-            cd ./src &&
-            source env.sh &&
-            nohup python3 -m application &"
+            git clone ${GIT_CLONE_URL}"
           echo all done with ssh
