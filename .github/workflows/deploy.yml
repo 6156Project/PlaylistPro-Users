@@ -63,4 +63,4 @@ jobs:
           ssh -o StrictHostKeyChecking=no -i private_key ${REMOTE_USER}@${REMOTE_HOST} "
             cd ${TARGET}/src/ &&
             source env.sh &&
-            nohup python3 -m application > nohup.out 2> nohup.err < /dev/null &"
+            bash -c 'nohup python3 -m application > nohup.out 2> nohup.err < /dev/null &'"
