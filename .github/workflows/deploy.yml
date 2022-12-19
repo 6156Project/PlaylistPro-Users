@@ -23,7 +23,7 @@ jobs:
       - name: Install dependencies
         run: python3 -m pip install -r requirements.txt
 
-      - name: Setup
+      - name: Setup and clone
         env:
           SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
           REMOTE_HOST: ${{ secrets.HOST_DNS }}
@@ -35,7 +35,18 @@ jobs:
           echo setting up ssh
           ssh -o StrictHostKeyChecking=no -i private_key ${REMOTE_USER}@${REMOTE_HOST} "
             rm -rf ${TARGET} &&
-            git clone ${GIT_REPO_URL} ${TARGET} &&
+            git clone ${GIT_REPO_URL} ${TARGET}"
+      - name: Run server
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
+          REMOTE_HOST: ${{ secrets.HOST_DNS }}
+          REMOTE_USER: ${{ secrets.USERNAME }}
+          TARGET: ${{ secrets.DIRECTORY }}
+          GIT_REPO_URL: ${{ secrets.GIT_CLONE_URL }}
+        run: |
+          echo "$SSH_PRIVATE_KEY" > private_key && chmod 600 private_key
+          echo setting up ssh
+          ssh -o StrictHostKeyChecking=no -i private_key ${REMOTE_USER}@${REMOTE_HOST} "
             cd ${TARGET} &&
             pkill -9 python &&
             source ./src/env.sh &&
