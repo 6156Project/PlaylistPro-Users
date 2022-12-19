@@ -70,7 +70,7 @@ def login():
     print(request)
     print(request.base_url)
     print(request.args)
-    print(request.args.get("domain")
+    print(request.args.get("domain"))
     print("Done...")
 
     # Use library to construct the request for Google login and provide
