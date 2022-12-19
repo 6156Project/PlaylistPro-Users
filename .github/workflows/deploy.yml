@@ -36,7 +36,7 @@ jobs:
           ssh -o StrictHostKeyChecking=no -i private_key ${REMOTE_USER}@${REMOTE_HOST} "
             rm -rf ${TARGET} &&
             git clone ${GIT_REPO_URL} ${TARGET}"
-      - name: Run server
+      - name: Pre-server running
         env:
           SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
           REMOTE_HOST: ${{ secrets.HOST_DNS }}
@@ -49,5 +49,18 @@ jobs:
           ssh -o StrictHostKeyChecking=no -i private_key ${REMOTE_USER}@${REMOTE_HOST} "
             cd ${TARGET} &&
             pkill -9 python &&
-            source ./src/env.sh &&
-            nohup python application.py > nohup.out 2> nohup.err < /dev/null & "
+            source ./src/env.sh "
+      - name: Run server
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
+          REMOTE_HOST: ${{ secrets.HOST_DNS }}
+          REMOTE_USER: ${{ secrets.USERNAME }}
+          TARGET: ${{ secrets.DIRECTORY }}
+          GIT_REPO_URL: ${{ secrets.GIT_CLONE_URL }}
+        run: |
+          echo "$SSH_PRIVATE_KEY" > private_key && chmod 600 private_key
+          echo setting up ssh
+          ssh -o StrictHostKeyChecking=no -i private_key ${REMOTE_USER}@${REMOTE_HOST} "
+            cd ${TARGET}/src/ &&
+            source env.sh &&
+            nohup python3 -m application > nohup.out 2> nohup.err < /dev/null &"
