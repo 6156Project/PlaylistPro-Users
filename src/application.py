@@ -66,15 +66,11 @@ def login():
     google_provider_cfg = get_google_provider_cfg()
     authorization_endpoint = google_provider_cfg["authorization_endpoint"]
 
-    # Get query params
-    args = request.args
-    domain_url = args.get("domain")
-
     # Use library to construct the request for Google login and provide
     # scopes that let you retrieve user's profile from Google
     request_uri = client.prepare_request_uri(
         authorization_endpoint,
-        redirect_uri=request.base_url + "/callback" + "?domain=domain_url",
+        redirect_uri=request.base_url + "/callback",
         scope=["openid", "email", "profile"],
     )
     print(request_uri)
@@ -82,7 +78,6 @@ def login():
         "request_uri": request_uri,
     }
     result = Response(json.dumps(msg), status=200, content_type="application/json")
-    print(msg)
     # Send user back to homepage
     return result
 @app.before_request
