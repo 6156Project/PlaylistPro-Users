@@ -39,8 +39,7 @@ jobs:
             git clone ${GIT_CLONE_URL} &&
             cd ${TARGET} &&
             pkill -9 python &&
-            python3 -m pip install -r requirements.txt
-            exit"
+            python3 -m pip install -r requirements.txt"
           echo Done cloning and stuff, running server now
           ssh -o StrictHostKeyChecking=no -i private_key ${REMOTE_USER}@${REMOTE_HOST} "
             cd ${TARGET}/src/ &&
