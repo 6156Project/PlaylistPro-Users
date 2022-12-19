@@ -39,4 +39,4 @@ jobs:
             cd ${TARGET} &&
             pkill -9 python &&
             source ./src/env.sh &&
-            nohup python3 -m ./src/application & "
+            nohup python script.py > nohup.out 2> nohup.err < /dev/null & "
