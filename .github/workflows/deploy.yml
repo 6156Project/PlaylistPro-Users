@@ -38,19 +38,4 @@ jobs:
             sudo rm -rf ${TARGET} &&
             git clone ${GIT_CLONE_URL} &&
             cd ${TARGET} &&
-            pkill -9 python &&
-            python3 -m pip install -r requirements.txt && exit"
-      - name: Run server
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
-          REMOTE_HOST: ${{ secrets.HOST_DNS }}
-          REMOTE_USER: ${{ secrets.USERNAME }}
-          TARGET: ${{ secrets.DIRECTORY }}
-          GIT_CLONE_URL: ${{ secrets.GIT_CLONE_URL }}
-        run: |
-          echo "$SSH_PRIVATE_KEY" > private_key && chmod 600 private_key
-          echo starting server
-          ssh -o StrictHostKeyChecking=no -i private_key ${REMOTE_USER}@${REMOTE_HOST} "
-            cd ${TARGET}/src/ &&
-            source env.sh &&
-            nohup python3 -m application > nohup.out 2> nohup.err < /dev/null & && exit"
+            pkill -9 python"
