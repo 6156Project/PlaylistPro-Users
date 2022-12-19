@@ -38,5 +38,8 @@ jobs:
             sudo rm -rf ${TARGET} &&
             git clone ${GIT_CLONE_URL} &&
             cd ${TARGET} &&
-            pkill -9 python"
+            pkill -9 python &&
+            python3 -m pip install -r requirements.txt &&
+            cd ./src &&
+            source env.sh"
           echo all done with ssh
