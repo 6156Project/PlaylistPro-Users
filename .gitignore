@@ -1,0 +1,9 @@
+src/__pycache__/
+src/resources/__pycache__
+src/api/__pycache__/
+.env
+venv
+.DS_Store
+src/.DS_Store
+myapp.zip
+.idea
