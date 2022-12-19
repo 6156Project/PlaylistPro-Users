@@ -38,9 +38,5 @@ jobs:
             sudo rm -rf ${TARGET} &&
             git clone ${GIT_CLONE_URL} &&
             cd ${TARGET} &&
-            pkill -9 python &&
-            python3 -m pip install -r requirements.txt &&
-            cd ./src &&
-            source env.sh &&
-            nohup python3 -m application > nohup.out 2> nohup.err < /dev/null &"
+            pkill -9 python"
           echo all done with ssh
