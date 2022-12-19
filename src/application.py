@@ -69,12 +69,13 @@ def login():
     # Get query params
     args = request.args
     domain_url = args.get("domain")
+    print(domain_url)
 
     # Use library to construct the request for Google login and provide
     # scopes that let you retrieve user's profile from Google
     request_uri = client.prepare_request_uri(
         authorization_endpoint,
-        redirect_uri=request.base_url + "/callback" + "?domain=domain_url",
+        redirect_uri=request.base_url + "/callback" + "?domain=" + domain_url,
         scope=["openid", "email", "profile"],
     )
     print(request_uri)
