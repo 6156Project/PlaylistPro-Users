@@ -59,6 +59,9 @@ def load_user(userId):
 def get_google_provider_cfg():
     return requests.get(GOOGLE_DISCOVERY_URL).json()
 
+# stored_domain_name = "https://d39qy3qhpapskf.cloudfront.net/"
+stored_domain_name = "localhost:3000"
+
 @app.route("/login", methods=["GET"])
 @cross_origin()
 def login():
@@ -67,6 +70,7 @@ def login():
     authorization_endpoint = google_provider_cfg["authorization_endpoint"]
 
     # Getting request args
+    # Its optional to pass domain as a query param
     try:
         print(request)
         print(request.base_url)
@@ -77,11 +81,9 @@ def login():
         # Construct request URL
         temp_request_url = request.base_url + "/callback" + "?domain=" + domain
     except:
-        print("Something bad happened while trying to get domain")
+        print("Something happened while trying to get domain")
         # Construct request URL
         temp_request_url = request.base_url + "/callback"
-
-
 
     # Use library to construct the request for Google login and provide
     # scopes that let you retrieve user's profile from Google
@@ -94,9 +96,11 @@ def login():
     msg = {
         "request_uri": request_uri,
     }
+
     result = Response(json.dumps(msg), status=200, content_type="application/json")
     # Send user back to homepage
-    return result
+#     return result
+    return redirect("https://d39qy3qhpapskf.cloudfront.net/")
 @app.before_request
 def before_request_func():
     if not current_user.is_authenticated and request.endpoint != 'login' and request.endpoint != "callback" and request.endpoint != "logout" and request.endpoint != "index":
