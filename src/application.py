@@ -59,12 +59,19 @@ def load_user(userId):
 def get_google_provider_cfg():
     return requests.get(GOOGLE_DISCOVERY_URL).json()
 
-@app.route("/login")
+@app.route("/login", methods=["GET"])
 @cross_origin()
 def login():
     # Find out what URL to hit for Google login
     google_provider_cfg = get_google_provider_cfg()
     authorization_endpoint = google_provider_cfg["authorization_endpoint"]
+
+    # Getting request args
+    print(request)
+    print(request.base_url)
+    print(request.args)
+    print(request.args.get("domain")
+    print("Done...")
 
     # Use library to construct the request for Google login and provide
     # scopes that let you retrieve user's profile from Google
@@ -86,7 +93,7 @@ def before_request_func():
         print("User not logged in")
         return redirect(url_for("index"))
 
-@app.route("/login/callback")
+@app.route("/login/callback", methods=["GET"])
 @cross_origin()
 def callback():
     # Get authorization code Google sent back to you
