@@ -152,7 +152,7 @@ def callback():
     }
     result = Response(json.dumps(msg), status=200, content_type="application/json")
     # Send user back to homepage
-    return redirect("http://")
+    return result
 
 @app.route("/logout")
 @cross_origin()
