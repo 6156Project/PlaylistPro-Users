@@ -41,5 +41,5 @@ jobs:
             python3 -m pip install -r requirements.txt &&
             cd ./src &&
             source env.sh &&
-            nohup python3 -m application"
-          echo "done with work..."
+            nohup python3 -m application &"
+          echo all done with ssh
