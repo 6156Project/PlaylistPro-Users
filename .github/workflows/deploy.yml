@@ -33,13 +33,13 @@ jobs:
           echo "$SSH_PRIVATE_KEY" > private_key && chmod 600 private_key
           echo setting up ssh
           ssh -o StrictHostKeyChecking=no -i private_key ${REMOTE_USER}@${REMOTE_HOST} "
-            cd PlaylistPro-Users/.. &&
-            sudo rm -rf PlaylistPro-Users &&
+            cd ${TARGET}/.. &&
+            sudo rm -rf ${TARGET} &&
             git clone git@github.com:6156Project/PlaylistPro-Users.git &&
-            cd PlaylistPro-Users &&
+            cd ${TARGET} &&
             pkill -9 python &&
             python3 -m pip install -r requirements.txt &&
             cd ./src &&
             source env.sh &&
             nohup python3 -m application"
-          echo "done with work."
+          echo "done with work..."
