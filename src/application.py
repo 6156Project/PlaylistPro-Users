@@ -59,8 +59,8 @@ def load_user(userId):
 def get_google_provider_cfg():
     return requests.get(GOOGLE_DISCOVERY_URL).json()
 
-# stored_domain_name = "https://d39qy3qhpapskf.cloudfront.net/"
-stored_domain_name = "localhost:3000"
+stored_domain_name = "https://d39qy3qhpapskf.cloudfront.net/"
+# stored_domain_name = "localhost:3000"
 
 @app.route("/login", methods=["GET"])
 @cross_origin()
@@ -71,25 +71,26 @@ def login():
 
     # Getting request args
     # Its optional to pass domain as a query param
-    try:
-        print(request)
-        print(request.base_url)
-        print(request.args)
-        print(request.args.get("domain"))
-        print("Done...")
-        domain = request.args.get("domain")
-        # Construct request URL
-        temp_request_url = request.base_url + "/callback" + "?domain=" + domain
-    except:
-        print("Something happened while trying to get domain")
-        # Construct request URL
-        temp_request_url = request.base_url + "/callback"
+#     try:
+#         print(request)
+#         print(request.base_url)
+#         print(request.args)
+#         print(request.args.get("domain"))
+#         print("Done...")
+#         domain = request.args.get("domain")
+#         # Construct request URL
+#         temp_request_url = request.base_url + "/callback" + "?domain=" + domain
+#     except:
+#         print("Something happened while trying to get domain")
+
+    # Construct request URL
+    temp_request_url = request.base_url + "/callback"
 
     # Use library to construct the request for Google login and provide
     # scopes that let you retrieve user's profile from Google
     request_uri = client.prepare_request_uri(
         authorization_endpoint,
-        redirect_uri=temp_request_url,
+        redirect_uri=stored_domain_name,
         scope=["openid", "email", "profile"],
     )
     print(request_uri)
@@ -99,8 +100,7 @@ def login():
 
     result = Response(json.dumps(msg), status=200, content_type="application/json")
     # Send user back to homepage
-#     return result
-    return redirect("https://d39qy3qhpapskf.cloudfront.net/")
+    return result
 @app.before_request
 def before_request_func():
     if not current_user.is_authenticated and request.endpoint != 'login' and request.endpoint != "callback" and request.endpoint != "logout" and request.endpoint != "index":
@@ -154,7 +154,7 @@ def callback():
     }
     result = Response(json.dumps(msg), status=200, content_type="application/json")
     # Send user back to homepage
-    return result
+    return redirect("http://")
 
 @app.route("/logout")
 @cross_origin()
