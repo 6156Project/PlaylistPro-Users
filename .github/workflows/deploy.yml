@@ -36,6 +36,6 @@ jobs:
           ssh -o StrictHostKeyChecking=no -i private_key ${REMOTE_USER}@${REMOTE_HOST} "
             cd ${TARGET}/.. &&
             sudo rm -rf ${TARGET} &&
-            git clone ${GIT_CLONE_URL} &&
+            git clone ${GIT_CLONE_URL} ${TARGET} &&
             cd ${TARGET} &&
-            pkill -9 python"
+            pkill -9 python "
