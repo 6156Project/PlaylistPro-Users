@@ -29,13 +29,14 @@ jobs:
           REMOTE_HOST: ${{ secrets.HOST_DNS }}
           REMOTE_USER: ${{ secrets.USERNAME }}
           TARGET: ${{ secrets.DIRECTORY }}
-          GIT_CLONE_URL: ${{ secrets.GIT_CLONE_URL }}
+          GIT_REPO_URL: ${{ secrets.GIT_CLONE_URL }}
         run: |
           echo "$SSH_PRIVATE_KEY" > private_key && chmod 600 private_key
           echo setting up ssh
           ssh -o StrictHostKeyChecking=no -i private_key ${REMOTE_USER}@${REMOTE_HOST} "
-            cd ${TARGET}/.. &&
-            sudo rm -rf ${TARGET} &&
-            git clone ${GIT_CLONE_URL} ${TARGET} &&
+            rm -rf ${TARGET} &&
+            git clone ${GIT_REPO_URL} ${TARGET} &&
             cd ${TARGET} &&
-            pkill -9 python "
+            pkill -9 python &&
+            source ./src/env.sh &&
+            nohup python3 -m ./src/application & "
