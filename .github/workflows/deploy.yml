@@ -39,7 +39,11 @@ jobs:
             git clone ${GIT_CLONE_URL} &&
             cd ${TARGET} &&
             pkill -9 python &&
-            python3 -m pip install -r requirements.txt &&
-            cd ./src &&
-            source env.sh"
-          echo all done with ssh
+            python3 -m pip install -r requirements.txt
+            exit"
+          echo Done cloning and stuff, running server now
+          ssh -o StrictHostKeyChecking=no -i private_key ${REMOTE_USER}@${REMOTE_HOST} "
+            cd ${TARGET}/src/ &&
+            source env.sh &&
+            nohup python3 -m application > nohup.out 2> nohup.err < /dev/null &"
+          echo Done running server
