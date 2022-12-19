@@ -67,17 +67,27 @@ def login():
     authorization_endpoint = google_provider_cfg["authorization_endpoint"]
 
     # Getting request args
-    print(request)
-    print(request.base_url)
-    print(request.args)
-    print(request.args.get("domain"))
-    print("Done...")
+    try:
+        print(request)
+        print(request.base_url)
+        print(request.args)
+        print(request.args.get("domain"))
+        print("Done...")
+        domain = request.args.get("domain")
+        # Construct request URL
+        temp_request_url = request.base_url + "/callback" + "?domain=" + domain
+    except:
+        print("Something bad happened while trying to get domain")
+        # Construct request URL
+        temp_request_url = request.base_url + "/callback"
+
+
 
     # Use library to construct the request for Google login and provide
     # scopes that let you retrieve user's profile from Google
     request_uri = client.prepare_request_uri(
         authorization_endpoint,
-        redirect_uri=request.base_url + "/callback",
+        redirect_uri=temp_request_url,
         scope=["openid", "email", "profile"],
     )
     print(request_uri)
