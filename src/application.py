@@ -66,24 +66,36 @@ def login():
     google_provider_cfg = get_google_provider_cfg()
     authorization_endpoint = google_provider_cfg["authorization_endpoint"]
 
-    # Getting request args
-    print(request)
-    print(request.base_url)
-    print(request.args)
-    print(request.args.get("domain"))
-    print("Done...")
+#     try:
+#         print(request)
+#         print(request.base_url)
+#         print(request.args)
+#         print(request.args.get("domain"))
+#         print("Done...")
+#         domain = request.args.get("domain")
+#         # Construct request URL
+#         temp_request_url = request.base_url + "/callback" + "?domain=" + domain
+#     except:
+#         print("Something happened while trying to get domain")
+#         # Construct request URL
+#         temp_request_url = request.base_url + "/callback"
+
+    # Redirect to main page
+    stored_domain_name = "https://d39qy3qhpapskf.cloudfront.net/"
+    # stored_domain_name = "localhost:3000"
 
     # Use library to construct the request for Google login and provide
     # scopes that let you retrieve user's profile from Google
     request_uri = client.prepare_request_uri(
         authorization_endpoint,
-        redirect_uri=request.base_url + "/callback",
+        redirect_uri=stored_domain_name,
         scope=["openid", "email", "profile"],
     )
     print(request_uri)
     msg = {
         "request_uri": request_uri,
     }
+
     result = Response(json.dumps(msg), status=200, content_type="application/json")
     # Send user back to homepage
     return result
